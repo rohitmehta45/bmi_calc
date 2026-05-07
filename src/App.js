@@ -16,25 +16,26 @@ const App = () => {
       return;
     }
 
-    const w = parseFloat(weight);
-    const h = parseFloat(height);
+    const w = parseFloat(weight); // kg
+    const h = parseFloat(height); // meters (supports decimals like 1.75, 1.8, 2.5)
 
     if (h === 0) {
       alert("Height cannot be zero");
       return;
     }
 
-    const bmiValue = (w / (h * h)) * 703;
+    // BMI formula (standard)
+    const bmiValue = w / (h * h);
     setBmi(bmiValue.toFixed(1));
 
     if (bmiValue < 18.5) {
       setMessage('You are underweight');
       setColor('yellow');
-    } 
+    }
     else if (bmiValue >= 18.5 && bmiValue < 25) {
       setMessage('You are healthy');
       setColor('green');
-    } 
+    }
     else {
       setMessage('You are overweight');
       setColor('red');
@@ -54,22 +55,25 @@ const App = () => {
       <div className='container'>
         <h2>BMI Calculator</h2>
 
+        {/* Enter key works automatically in form */}
         <form onSubmit={calcBmi}>
+
           <div>
-            <label>Weight (lbs)</label>
+            <label>Weight (kg)</label>
             <input
               type='number'
-              placeholder='Enter weight'
+              placeholder='Enter weight (kg)'
               value={weight}
               onChange={(e) => setWeight(e.target.value)}
             />
           </div>
 
           <div>
-            <label>Height (in)</label>
+            <label>Height (m)</label>
             <input
               type='number'
-              placeholder='Enter height'
+              step="any"
+              placeholder='Enter height (meters)'
               value={height}
               onChange={(e) => setHeight(e.target.value)}
             />
@@ -86,6 +90,7 @@ const App = () => {
             {bmi && <h3 className={color}>Your BMI is: {bmi}</h3>}
             {message && <p className={color}>{message}</p>}
           </div>
+
         </form>
       </div>
     </div>
